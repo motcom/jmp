@@ -1,0 +1,61 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Text.Json;
+
+namespace jmp
+{
+    public class JmpSaveAndLoad
+    {
+        string jmp_data_path = 
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "jmp", "config.json");
+
+        private void first_file_access(string path)
+        {
+
+            // パスが存在しない場合はパスを追加
+            if (!File.Exists(path))
+            {
+                string? dir_name = Path.GetDirectoryName(path);
+                // ディレクトリ名取得失敗
+                if (dir_name == null) 
+                { 
+                    MessageBox.Show("ジャンプリストファイルのディレクトリ名を取得できません");
+                    Environment.Exit(1); 
+                }
+                try
+                {
+                    Directory.CreateDirectory(dir_name);
+                }catch(Exception ex)
+                {
+                    MessageBox.Show("ジャンプリストのファイルディレクトリ作成失敗:{0}",ex.Message);
+                    Environment.Exit(1);
+                }
+                
+                File.WriteAllText(path, "{}");
+                MessageBox.Show("ジャンプリストのファイル作成成功:");
+                
+            }
+        }
+
+        public void save_message_and_path(string message,string path)
+        {
+            first_file_access(jmp_data_path);
+            MessageBox.Show(jmp_data_path);
+            Clipboard.SetText(jmp_data_path);
+
+            if (!Directory.Exists(path)){
+                MessageBox.Show("ディレクトリは存在しません");
+                Environment.Exit(1);
+            }
+            DirectoryInfo dir_info = new DirectoryInfo(path);
+        }
+
+        public void load_message_to_path()
+        {
+
+        }
+    }
+}
