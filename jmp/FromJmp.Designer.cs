@@ -28,18 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
+            listBoxIndex = new ListBox();
             SuspendLayout();
+            // 
+            // listBoxIndex
+            // 
+            listBoxIndex.BackColor = Color.SlateGray;
+            listBoxIndex.BorderStyle = BorderStyle.None;
+            listBoxIndex.Cursor = Cursors.IBeam;
+            listBoxIndex.Dock = DockStyle.Fill;
+            listBoxIndex.ForeColor = Color.SeaShell;
+            listBoxIndex.FormattingEnabled = true;
+            listBoxIndex.Location = new Point(0, 0);
+            listBoxIndex.Name = "listBoxIndex";
+            listBoxIndex.Size = new Size(759, 688);
+            listBoxIndex.TabIndex = 0;
             // 
             // FormJmp
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(759, 688);
+            Controls.Add(listBoxIndex);
+            ForeColor = SystemColors.ButtonHighlight;
             Name = "FormJmp";
             Text = "jmp";
             ResumeLayout(false);
         }
 
         #endregion
+
+        private ListBox listBoxIndex;
     }
 }
