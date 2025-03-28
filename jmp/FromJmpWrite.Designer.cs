@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FromJmpWrite));
             TextBox_Message = new TextBox();
             textBox_path = new TextBox();
             label1 = new Label();
@@ -84,6 +85,7 @@
             Controls.Add(label1);
             Controls.Add(textBox_path);
             Controls.Add(TextBox_Message);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FromJmpWrite";
             Text = "Message";
             KeyDown += FromJmpWrite_KeyDown;
