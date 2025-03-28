@@ -1,0 +1,33 @@
+@startuml
+FormJmp --> JmpSaveAndLoad
+FromJmpWrite --> JmpSaveAndLoad  
+FormJmp == FromJmpWrite 
+
+class JmpSaveAndLoad{
+  jmp_data_path:string
+  message_path_dict:Dictionary<string, string>
+  +add(string message,string path)
+  +del(string message)
+  +jmp(string message)
+  +clear()
+  +getMessage()->IEnumerable<string> 
+  }
+
+  class FormJmp {
+    JmpSaveAndLoad jmpSaveAndLoad
+    FromJmpWrite fromJmpWrite
+    + updateList()
+    - showFromJmpWrite()
+    - selectList()
+    - deleteList()
+    - allClearList()
+  }
+
+  class FromJmpWrite {
+    JmpSaveAndLoad jmpSaveAndLoad
+    FormJmp formJmp
+    + FromJmpWrite(FormJmp,JmpSaveAndLoad)
+    - save()
+    - close_form()
+  }
+@endum        

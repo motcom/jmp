@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormJmp));
             listBoxIndex = new ListBox();
             SuspendLayout();
             // 
@@ -35,7 +36,7 @@
             // 
             listBoxIndex.BackColor = Color.SlateGray;
             listBoxIndex.BorderStyle = BorderStyle.None;
-            listBoxIndex.Cursor = Cursors.IBeam;
+            listBoxIndex.Cursor = Cursors.Hand;
             listBoxIndex.Dock = DockStyle.Fill;
             listBoxIndex.ForeColor = Color.SeaShell;
             listBoxIndex.FormattingEnabled = true;
@@ -43,6 +44,8 @@
             listBoxIndex.Name = "listBoxIndex";
             listBoxIndex.Size = new Size(759, 688);
             listBoxIndex.TabIndex = 0;
+            listBoxIndex.KeyDown += listBoxIndex_KeyDown;
+            listBoxIndex.MouseDoubleClick += listBoxIndex_MouseDoubleClick;
             // 
             // FormJmp
             // 
@@ -51,8 +54,10 @@
             ClientSize = new Size(759, 688);
             Controls.Add(listBoxIndex);
             ForeColor = SystemColors.ButtonHighlight;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FormJmp";
             Text = "jmp";
+            Load += FormJmp_Load;
             ResumeLayout(false);
         }
 

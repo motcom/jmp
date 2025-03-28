@@ -29,10 +29,9 @@
         private void InitializeComponent()
         {
             TextBox_Message = new TextBox();
-            textBox1 = new TextBox();
+            textBox_path = new TextBox();
             label1 = new Label();
             label2 = new Label();
-            button1 = new Button();
             SuspendLayout();
             // 
             // TextBox_Message
@@ -42,15 +41,16 @@
             TextBox_Message.Name = "TextBox_Message";
             TextBox_Message.Size = new Size(1051, 27);
             TextBox_Message.TabIndex = 0;
-            TextBox_Message.KeyPress += TextBox_Message_KeyPress;
+            TextBox_Message.KeyDown += TextBox_Message_KeyDown;
             // 
-            // textBox1
+            // textBox_path
             // 
-            textBox1.Cursor = Cursors.IBeam;
-            textBox1.Location = new Point(85, 42);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(1051, 27);
-            textBox1.TabIndex = 1;
+            textBox_path.Cursor = Cursors.IBeam;
+            textBox_path.Location = new Point(85, 42);
+            textBox_path.Name = "textBox_path";
+            textBox_path.Size = new Size(1051, 27);
+            textBox_path.TabIndex = 1;
+            textBox_path.KeyDown += textBox_path_KeyDown;
             // 
             // label1
             // 
@@ -74,31 +74,19 @@
             label2.TabIndex = 3;
             label2.Text = "Path";
             // 
-            // button1
-            // 
-            button1.BackColor = Color.PowderBlue;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.ForeColor = SystemColors.ButtonHighlight;
-            button1.Location = new Point(1142, 9);
-            button1.Name = "button1";
-            button1.Size = new Size(61, 60);
-            button1.TabIndex = 4;
-            button1.Text = "SAVE";
-            button1.UseVisualStyleBackColor = false;
-            // 
             // FromJmpWrite
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.SlateGray;
-            ClientSize = new Size(1211, 79);
-            Controls.Add(button1);
+            ClientSize = new Size(1147, 79);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox1);
+            Controls.Add(textBox_path);
             Controls.Add(TextBox_Message);
             Name = "FromJmpWrite";
             Text = "Message";
+            KeyDown += FromJmpWrite_KeyDown;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -106,9 +94,8 @@
         #endregion
 
         private TextBox TextBox_Message;
-        private TextBox textBox1;
+        private TextBox textBox_path;
         private Label label1;
         private Label label2;
-        private Button button1;
     }
 }
