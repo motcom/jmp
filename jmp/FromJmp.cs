@@ -3,6 +3,7 @@ using System.Diagnostics;
 
 namespace jmp
 {
+
     public partial class FormJmp : Form
     {
         JmpSaveAndLoad jmpSaveAndLoad;
@@ -84,19 +85,75 @@ namespace jmp
                     allClearList();
                     break;
 
+                // â∫Ç÷
                 case Keys.J:
                     SendKeys.Send("{DOWN}");
                     e.Handled = true;
                     break;
+                // è„Ç÷
                 case Keys.K:
                     SendKeys.Send("{UP}");
                     e.Handled = true;
+                    break;
+
+                // ìßñæìxê›íË
+                case Keys.D1:
+                    changeOpacity(0.1f);
+                    break;
+                case Keys.D2:
+                    changeOpacity(0.2f);
+                    break;
+                case Keys.D3:
+                    changeOpacity(0.3f);
+                    break;
+                case Keys.D4:
+                    changeOpacity(0.4f);
+                    break;
+                case Keys.D5:
+                    changeOpacity(0.5f);
+                    break;
+                case Keys.D6:
+                    changeOpacity(0.6f);
+                    break;
+                case Keys.D7:
+                    changeOpacity(0.7f);
+                    break;
+                case Keys.D8:
+                    changeOpacity(0.8f);
+                    break;
+                case Keys.D9:
+                    changeOpacity(0.9f);
+                    break;
+                case Keys.D0:
+                    changeOpacity(1.0f);
+                    break;
+                case Keys.T:
+                    toggleTop(); 
                     break;
 
             }
         }
 
         // Handler End --------------------------------------------------
+        private void toggleTop()
+        {
+            bool flag = this.TopMost;
+            if (flag)
+            {
+                this.TopMost = false;
+            }
+            else
+            {
+                this.TopMost = true;
+            }
+
+        }
+
+        private void changeOpacity(float opacity)
+        {
+            this.Opacity = opacity;
+            this.Update();
+        }
 
         public void updateList()
         {
