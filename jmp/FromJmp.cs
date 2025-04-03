@@ -45,12 +45,12 @@ namespace jmp
             // 色の初期化
             Brush brush;
             if (text == null)
-            { 
-                brush = Brushes.White; 
+            {
+                brush = Brushes.White;
             }
             else
             {
-               brush =  new SolidBrush(jmpSaveAndLoad.getColor(text)); 
+                brush = new SolidBrush(jmpSaveAndLoad.getColor(text));
             }
 
             //　文字の太さを反映
@@ -66,8 +66,8 @@ namespace jmp
             }
 
 
-                //  フォーカスを示す四角形を描画
-                e.DrawFocusRectangle();
+            //  フォーカスを示す四角形を描画
+            e.DrawFocusRectangle();
         }
 
 
@@ -126,16 +126,17 @@ namespace jmp
 
                 //カラーの変更
                 case Keys.C:
-                    using(ColorDialog colorDialog = new ColorDialog())
+                    using (ColorDialog colorDialog = new ColorDialog())
                     {
                         if (colorDialog.ShowDialog() == DialogResult.OK)
                         {
                             string? message = listBoxIndex.SelectedItem?.ToString();
-                            if(message == null)
+                            if (message == null)
                             {
                                 MessageBox.Show("リストが選択されていません");
                                 return;
-                            }else
+                            }
+                            else
                             {
                                 jmpSaveAndLoad.setColor(message, colorDialog.Color);
                             }
@@ -144,7 +145,7 @@ namespace jmp
                     break;
 
                 // 文字列の太さの変更
-                 case Keys.B:
+                case Keys.B:
                     string? message_for_bold = listBoxIndex.SelectedItem?.ToString();
                     if (message_for_bold == null)
                     {
@@ -152,7 +153,7 @@ namespace jmp
                         return;
                     }
 
-                    if(jmpSaveAndLoad.getBold(message_for_bold))
+                    if (jmpSaveAndLoad.getBold(message_for_bold))
                     {
                         jmpSaveAndLoad.setBold(message_for_bold, false);
                     }
@@ -160,7 +161,7 @@ namespace jmp
                     {
                         jmpSaveAndLoad.setBold(message_for_bold, true);
                     }
-                    
+
                     break;
 
                 //全消去
@@ -211,8 +212,8 @@ namespace jmp
                     changeOpacity(1.0f);
                     break;
 
-                case Keys.Tab:
-                    toggleTop(); 
+                case Keys.F:
+                    toggleTop();
                     break;
 
                 case Keys.T:
@@ -309,6 +310,10 @@ namespace jmp
 
         }
 
+        private void listBoxIndex_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 }
 

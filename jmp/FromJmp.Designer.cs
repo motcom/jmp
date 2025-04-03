@@ -45,6 +45,7 @@
             listBoxIndex.Size = new Size(759, 688);
             listBoxIndex.TabIndex = 0;
             listBoxIndex.KeyDown += listBoxIndex_KeyDown;
+            listBoxIndex.KeyPress += listBoxIndex_KeyPress;
             listBoxIndex.MouseDoubleClick += listBoxIndex_MouseDoubleClick;
             // 
             // FormJmp
