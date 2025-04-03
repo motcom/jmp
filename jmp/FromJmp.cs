@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 
 namespace jmp
 {
@@ -25,9 +26,51 @@ namespace jmp
         private void FormJmp_Load(object sender, EventArgs e)
         {
             updateList();
+            listBoxIndex.DrawMode = DrawMode.OwnerDrawFixed;
+            listBoxIndex.DrawItem += new DrawItemEventHandler(listBoxIndex_DrawItem);
             if (listBoxIndex.Items.Count != 0) listBoxIndex.SelectedIndex = 0;
             listBoxIndex.Focus();
         }
+
+        // リストボックスのItemを描画する
+        private void listBoxIndex_DrawItem(object? sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0) return;
+
+            // 背景を描画
+            e.DrawBackground();
+            // 文字列を描画
+            string? text = listBoxIndex.Items[e.Index].ToString();
+
+            // 色の初期化
+            Brush brush;
+            if (text == null)
+            { 
+                brush = Brushes.White; 
+            }
+            else
+            {
+               brush =  new SolidBrush(jmpSaveAndLoad.getColor(text)); 
+            }
+
+            //　文字の太さを反映
+
+            if (jmpSaveAndLoad.getBold(text))
+            {
+                Font font = new Font(e.Font!, FontStyle.Bold);
+                e.Graphics.DrawString(text, font, brush, e.Bounds, StringFormat.GenericDefault);
+            }
+            else
+            {
+                e.Graphics.DrawString(text, e.Font!, brush, e.Bounds, StringFormat.GenericDefault);
+            }
+
+
+                //  フォーカスを示す四角形を描画
+                e.DrawFocusRectangle();
+        }
+
+
         private void listBoxIndex_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             string? selected_item = listBoxIndex.SelectedItem?.ToString();
@@ -59,6 +102,7 @@ namespace jmp
                 // 登録 w
                 case Keys.W:
                     showFromJmpWrite();
+                    updateList();
                     break;
 
                 // 閉じる x
@@ -80,8 +124,47 @@ namespace jmp
                     listBoxIndex.Update();
                     break;
 
-                //全消去
+                //カラーの変更
                 case Keys.C:
+                    using(ColorDialog colorDialog = new ColorDialog())
+                    {
+                        if (colorDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            string? message = listBoxIndex.SelectedItem?.ToString();
+                            if(message == null)
+                            {
+                                MessageBox.Show("リストが選択されていません");
+                                return;
+                            }else
+                            {
+                                jmpSaveAndLoad.setColor(message, colorDialog.Color);
+                            }
+                        }
+                    }
+                    break;
+
+                // 文字列の太さの変更
+                 case Keys.B:
+                    string? message_for_bold = listBoxIndex.SelectedItem?.ToString();
+                    if (message_for_bold == null)
+                    {
+                        MessageBox.Show("リストが選択されていません");
+                        return;
+                    }
+
+                    if(jmpSaveAndLoad.getBold(message_for_bold))
+                    {
+                        jmpSaveAndLoad.setBold(message_for_bold, false);
+                    }
+                    else
+                    {
+                        jmpSaveAndLoad.setBold(message_for_bold, true);
+                    }
+                    
+                    break;
+
+                //全消去
+                case Keys.A:
                     allClearList();
                     break;
 
@@ -127,14 +210,33 @@ namespace jmp
                 case Keys.D0:
                     changeOpacity(1.0f);
                     break;
-                case Keys.T:
+
+                case Keys.Tab:
                     toggleTop(); 
+                    break;
+
+                case Keys.T:
+                    // time stampの更新
+                    onTimeStampChange();
                     break;
 
             }
         }
 
+        private void onTimeStampChange()
+        {
+            string? tmp_str = listBoxIndex.SelectedItem?.ToString();
+            if (tmp_str == null)
+            {
+                MessageBox.Show("リストが選択されていません");
+                return;
+            }
+            jmpSaveAndLoad.changeTimeStamp(tmp_str);
+            updateList();
+        }
+
         // Handler End --------------------------------------------------
+
         private void toggleTop()
         {
             bool flag = this.TopMost;
@@ -146,8 +248,8 @@ namespace jmp
             {
                 this.TopMost = true;
             }
-
         }
+
 
         private void changeOpacity(float opacity)
         {
@@ -168,8 +270,8 @@ namespace jmp
         {
             fromJmpWrite = new FromJmpWrite(this, jmpSaveAndLoad);
             fromJmpWrite.Show();
-        }
 
+        }
 
         private void selectList(string selected_item)
         {
@@ -181,11 +283,7 @@ namespace jmp
                 SetForegroundWindow(this.Handle);
                 timer.Stop();
             };
-            
-
             timer.Start();
-            
-
         }
 
         private void deleteList(string selectd_item)

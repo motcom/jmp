@@ -1,33 +1,79 @@
 @startuml
 FormJmp --> JmpSaveAndLoad
 FromJmpWrite --> JmpSaveAndLoad  
-FormJmp == FromJmpWrite 
+FormJmp -- FromJmpWrite 
+JmpSaveAndLoad --> JmpDstData
 
-class JmpSaveAndLoad{
-  jmp_data_path:string
-  message_path_dict:Dictionary<string, string>
-  +add(string message,string path)
-  +del(string message)
-  +jmp(string message)
-  +clear()
-  +getMessage()->IEnumerable<string> 
-  }
 
-  class FormJmp {
-    JmpSaveAndLoad jmpSaveAndLoad
-    FromJmpWrite fromJmpWrite
-    + updateList()
-    - showFromJmpWrite()
-    - selectList()
-    - deleteList()
-    - allClearList()
-  }
 
   class FromJmpWrite {
-    JmpSaveAndLoad jmpSaveAndLoad
-    FormJmp formJmp
+    jmpSaveAndLoad : JmpSaveAndLoad 
+    formJmp : FormJmp 
     + FromJmpWrite(FormJmp,JmpSaveAndLoad)
     - save()
     - close_form()
   }
+
+  class FormJmp {
+      - JmpSaveAndLoad jmpSaveAndLoad
+      - FromJmpWrite? fromJmpWrite
+
+      + FormJmp()
+
+      -- イベントハンドラ・操作メソッド --
+      + void updateList()
+      + void showFromJmpWrite()
+      + void selectList(string selected_item)
+      + void deleteList(string selected_item)
+      + void allClearList()
+      + void changeOpacity(float opacity)
+      + void toggleTop()
+  }
+
+
+  class JmpSaveAndLoad {
+      - string jmp_data_path
+      - Dictionary<string, JmpDstData> message_path_dict
+      - SortedList<DateTime, string> time_stamp_list
+      - Comparer<DateTime> date_reverse_compare
+
+      + JmpSaveAndLoad()
+
+      -- Private Utility Methods --
+      - void first_file_access()
+      - Dictionary<string, JmpDstData> load_json()
+      - void save_json(string message, string path)
+
+      -- Public Methods --
+      + void changeTimeStamp(string message)
+      + void setBold(string message, bool bold_flag)
+      + bool getBold(string? message)
+      + void setColor(string message, Color color)
+      + Color getColor(string message)
+      + void add(string message, string path)
+      + IEnumerable<string> getMessage()
+      + void jmp(string message)
+      + void del(string message)
+      + void clear()
+  }
+
+
+  class JmpDstData {
+      - string? path_string
+      - DateTime? time_stamp
+      - int? r
+      - int? g
+      - int? b
+      - bool? bold_flag
+
+      + JmpDstData()
+      + JmpDstData(string path_string, 
+        Color brush_color, bool bold_flag,
+         DateTime time_stamp)
+
+      + void setColor(Color brush_color)
+      + Color getColor()
+      + void changeTimeStamp()
+  }
+
 @endum        
