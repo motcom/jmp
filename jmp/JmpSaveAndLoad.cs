@@ -124,6 +124,7 @@ namespace jmp
         {
             message_path_dict[message].setColor(color);
             var message_path_json = JsonSerializer.Serialize<Dictionary<string, JmpDstData>>(message_path_dict);
+
             File.WriteAllText(jmp_data_path, message_path_json);
         }
 
@@ -211,6 +212,18 @@ namespace jmp
             message_path_dict = new Dictionary<string, JmpDstData>();
             string path = jmp_data_path;
             File.WriteAllText(path, "{}");
+        }
+
+        /// <summary>
+        /// 選択されたアイテムのパスをクリップボードにコピー
+        /// </summary>
+        /// <param name="selected_item"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        internal void jmpYank(string selected_item)
+        {
+            string dst_path = message_path_dict[selected_item].path_string ??  "";
+
+            Clipboard.SetText(dst_path);
         }
     }
 }

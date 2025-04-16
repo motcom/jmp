@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
+using System.CodeDom;
 
 namespace jmp
 {
@@ -88,6 +89,16 @@ namespace jmp
             string? selected_item = null;
             switch (e.KeyCode)
             {
+                // ヤンクY
+                case Keys.Y:
+                    selected_item = listBoxIndex.SelectedItem?.ToString();
+                    // nullの時
+                    if (selected_item == null)
+                    {
+                        return;
+                    }
+                    jmpSaveAndLoad.jmpYank(selected_item);
+                    break;
                 // エンターを押したとき
                 case Keys.Enter:
                     selected_item = listBoxIndex.SelectedItem?.ToString();
